@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 import static java.nio.file.StandardOpenOption.*;
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
+import static java.util.function.Function.identity;
 
 /**
  * Stores {@link Drivers} in a CSV file.  The CSV file is formatted as:
@@ -51,17 +52,17 @@ public class CSVDriverRepository implements DriverRepository {
 
     @Override
     public Drivers findAll() {
-        return find(lines -> lines.map(this::parse));
+        return find(identity());
     }
 
     @Override
     public Drivers findFrom(Instant earliestDate) {
-        return find(lines -> lines.map(this::parse).filter(driver -> !driver.getCreated().isBefore(earliestDate)));
+        return find(driverStream -> driverStream.filter(driver -> !driver.getCreated().isBefore(earliestDate)));
     }
 
-    private Drivers find(Function<Stream<String>, Stream<Driver>> finder) {
+    private Drivers find(Function<Stream<Driver>, Stream<Driver>> finder) {
         try (Stream<String> lines = Files.lines(file, charset)) {
-            return new Drivers(finder.apply(lines).collect(Collectors.toList()));
+            return new Drivers(finder.apply(lines.map(this::parse)).collect(Collectors.toList()));
         } catch (NoSuchFileException e) {
             return new Drivers();
         } catch (IOException e) {
