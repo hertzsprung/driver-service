@@ -1,4 +1,4 @@
-package uk.co.datumedge.floow;
+package uk.co.datumedge.floow.test.system;
 
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
