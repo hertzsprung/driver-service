@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,15 +19,17 @@ import java.util.stream.Stream;
 
 import static java.nio.file.StandardOpenOption.*;
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 
 /**
  * Stores {@link Drivers} in a CSV file.  The CSV file is formatted as:
  * <pre>
- *     id,firstName,lastName,creationInstant
+ *     id,firstname,lastname,date_of_birth,creationInstant
  *     ...
  * </pre>
  * with no header line and no quoted fields.
  * The <code>id</code> is a {@link UUID} string.
+ * The <code>date_of_birth</code> is formatted as a {@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE}.
  * The <code>creationInstant</code> is formatted as a {@link java.time.format.DateTimeFormatter#ISO_INSTANT}.
  */
 public class CSVDriverRepository implements DriverRepository {
@@ -53,9 +56,9 @@ public class CSVDriverRepository implements DriverRepository {
 
     private Driver parse(String line) {
         String[] tokens = line.split(",");
-        return new Driver.Builder(tokens[1], tokens[2])
+        return new Driver.Builder(tokens[1], tokens[2], LocalDate.from(ISO_LOCAL_DATE.parse(tokens[3])))
                 .withId(UUID.fromString(tokens[0]))
-                .createdAt(Instant.from(ISO_INSTANT.parse(tokens[3])))
+                .createdAt(Instant.from(ISO_INSTANT.parse(tokens[4])))
                 .build();
     }
 
@@ -79,6 +82,7 @@ public class CSVDriverRepository implements DriverRepository {
         csvRecord.add(driver.getId().toString());
         csvRecord.add(driver.getFirstName());
         csvRecord.add(driver.getLastName());
+        csvRecord.add(ISO_LOCAL_DATE.format(driver.getDateOfBirth()));
         csvRecord.add(ISO_INSTANT.format(driver.getCreated()));
         return csvRecord.toString();
     }

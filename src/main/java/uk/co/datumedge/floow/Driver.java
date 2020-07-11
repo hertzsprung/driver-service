@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -15,16 +16,18 @@ public class Driver {
     private UUID id;
     private final String firstName;
     private final String lastName;
+    private final LocalDate dateOfBirth;
     private Instant created;
 
     @JsonCreator
-    public Driver(String firstName, String lastName) {
+    public Driver(String firstName, String lastName, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public Driver(UUID id, String firstName, String lastName, Instant created) {
-        this(firstName, lastName);
+    public Driver(UUID id, String firstName, String lastName, LocalDate dateOfBirth, Instant created) {
+        this(firstName, lastName, dateOfBirth);
         this.id = id;
         this.created = created;
     }
@@ -47,6 +50,11 @@ public class Driver {
         return lastName;
     }
 
+    @JsonProperty("date_of_birth")
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
     public Instant getCreated() {
         return created;
     }
@@ -63,12 +71,13 @@ public class Driver {
         return Objects.equals(id, driver.id) &&
                 Objects.equals(firstName, driver.firstName) &&
                 Objects.equals(lastName, driver.lastName) &&
+                Objects.equals(dateOfBirth, driver.dateOfBirth) &&
                 Objects.equals(created, driver.created);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, created);
+        return Objects.hash(id, firstName, lastName, dateOfBirth, created);
     }
 
     @Override
@@ -77,6 +86,7 @@ public class Driver {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
                 ", created=" + created +
                 '}';
     }
@@ -84,8 +94,8 @@ public class Driver {
     public static class Builder {
         private final Driver driver;
 
-        public Builder(String firstName, String lastName) {
-            this.driver = new Driver(firstName, lastName);
+        public Builder(String firstName, String lastName, LocalDate dateOfBirth) {
+            this.driver = new Driver(firstName, lastName, dateOfBirth);
         }
 
         public Builder createdAt(Instant instant) {

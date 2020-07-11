@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import uk.co.datumedge.floow.Driver;
 import uk.co.datumedge.floow.Drivers;
 import uk.co.datumedge.floow.repository.DriverRepository;
 
@@ -30,8 +29,7 @@ public class DriverControllerTest {
 
     @Test
     public void savesDriverToRepository() {
-        Driver driver = new Driver("Lucas", "Rees");
-        this.client.postForEntity(rootUrl() + "/driver/create", driver, String.class);
+        this.client.postForEntity(rootUrl() + "/driver/create", LUCAS_REES.build(), String.class);
 
         verify(repository).save(LUCAS_REES.build());
     }
