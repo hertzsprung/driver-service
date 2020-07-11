@@ -26,7 +26,7 @@ public class DriverController {
     }
 
     @GetMapping("/drivers/byDate")
-    public Drivers findByDate(@RequestParam Instant date) {
-        return new Drivers();
+    public Drivers findFromDate(@RequestParam Instant date) {
+        return driverRepository.findFrom(date);
     }
 }

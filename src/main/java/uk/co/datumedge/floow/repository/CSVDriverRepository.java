@@ -56,11 +56,23 @@ public class CSVDriverRepository implements DriverRepository {
         }
     }
 
+    @Override
+    public Drivers findFrom(Instant earliestDate) {
+        try (Stream<String> lines = Files.lines(file, charset)) {
+            return new Drivers(lines
+                    .map(this::parse)
+                    .filter(driver -> !driver.getCreated().isBefore(earliestDate))
+                    .collect(Collectors.toList()));
+        } catch (IOException e) {
+            throw new RepositoryException(e);
+        }
+    }
+
     private Driver parse(String line) {
         String[] tokens = line.split(",");
-        return new Driver.Builder(tokens[1], tokens[2], LocalDate.from(ISO_LOCAL_DATE.parse(tokens[3])))
+        return new Driver.Builder(tokens[1], tokens[2], LocalDate.parse(tokens[3]))
                 .withId(UUID.fromString(tokens[0]))
-                .createdAt(Instant.from(ISO_INSTANT.parse(tokens[4])))
+                .createdAt(Instant.parse(tokens[4]))
                 .build();
     }
 

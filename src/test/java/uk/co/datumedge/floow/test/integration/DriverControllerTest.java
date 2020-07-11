@@ -9,6 +9,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import uk.co.datumedge.floow.Drivers;
 import uk.co.datumedge.floow.repository.DriverRepository;
 
+import java.time.Instant;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -40,6 +42,15 @@ public class DriverControllerTest {
         when(repository.findAll()).thenReturn(expectedDrivers);
 
         Drivers actualDrivers = this.client.getForObject(rootUrl() + "/drivers", Drivers.class);
+        assertThat(actualDrivers).isEqualTo(expectedDrivers);
+    }
+
+    @Test
+    public void getsDriversByDateFromRepository() {
+        Drivers expectedDrivers = new Drivers(JESSICA_GREENE.build());
+        when(repository.findFrom(Instant.ofEpochSecond(2))).thenReturn(expectedDrivers);
+
+        Drivers actualDrivers = this.client.getForObject(rootUrl() + "/drivers/byDate?date=1970-01-01T00:00:02Z", Drivers.class);
         assertThat(actualDrivers).isEqualTo(expectedDrivers);
     }
 

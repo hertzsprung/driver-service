@@ -14,7 +14,6 @@ import uk.co.datumedge.floow.Driver;
 import java.time.LocalDate;
 import java.util.Map;
 
-import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -32,7 +31,7 @@ public class RestSteps {
     }
 
     private void postDriver(Map<String, String> driverParameters) {
-        LocalDate dateOfBirth = LocalDate.from(ISO_LOCAL_DATE.parse(driverParameters.get("date_of_birth")));
+        LocalDate dateOfBirth = LocalDate.parse(driverParameters.get("date_of_birth"));
         Driver driver = new Driver(driverParameters.get("firstname"), driverParameters.get("lastname"), dateOfBirth);
         ResponseEntity<String> response = this.client.postForEntity(ROOT_URL + "/driver/create", driver, String.class);
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
