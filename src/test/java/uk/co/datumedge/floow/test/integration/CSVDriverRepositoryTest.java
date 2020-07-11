@@ -24,6 +24,12 @@ public class CSVDriverRepositoryTest {
     Path directory;
 
     @Test
+    public void findNoDrivers() {
+        Drivers drivers = csvRepository().findAll();
+        assertThat(drivers.getDrivers()).isEmpty();
+    }
+
+    @Test
     public void roundTripSingleDriver() {
         DriverRepository repository = csvRepository();
 

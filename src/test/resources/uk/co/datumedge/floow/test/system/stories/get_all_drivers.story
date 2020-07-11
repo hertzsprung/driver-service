@@ -1,3 +1,14 @@
+Scenario: Get no drivers from an empty driver repository
+
+When I GET /drivers
+Then the JSON response body is:
+{
+    "drivers": []
+}
+
+
+Scenario: Get all drivers in order of creation
+
 Given the drivers:
 |firstname|lastname|date_of_birth|
 |Chloe|Ball|1980-04-12|

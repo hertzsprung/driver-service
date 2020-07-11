@@ -8,12 +8,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.StringJoiner;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,20 +51,19 @@ public class CSVDriverRepository implements DriverRepository {
 
     @Override
     public Drivers findAll() {
-        try (Stream<String> lines = Files.lines(file, charset)) {
-            return new Drivers(lines.map(this::parse).collect(Collectors.toList()));
-        } catch (IOException e) {
-            throw new RepositoryException(e);
-        }
+        return find(lines -> lines.map(this::parse));
     }
 
     @Override
     public Drivers findFrom(Instant earliestDate) {
+        return find(lines -> lines.map(this::parse).filter(driver -> !driver.getCreated().isBefore(earliestDate)));
+    }
+
+    private Drivers find(Function<Stream<String>, Stream<Driver>> finder) {
         try (Stream<String> lines = Files.lines(file, charset)) {
-            return new Drivers(lines
-                    .map(this::parse)
-                    .filter(driver -> !driver.getCreated().isBefore(earliestDate))
-                    .collect(Collectors.toList()));
+            return new Drivers(finder.apply(lines).collect(Collectors.toList()));
+        } catch (NoSuchFileException e) {
+            return new Drivers();
         } catch (IOException e) {
             throw new RepositoryException(e);
         }

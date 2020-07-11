@@ -15,15 +15,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Clock;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
-
 public class DriverServiceSteps {
     private ConfigurableApplicationContext applicationContext;
 
     @BeforeScenario
     public void start() throws IOException {
-        Files.write(Paths.get("target/testdb.csv"), new byte[0], CREATE, TRUNCATE_EXISTING);
+        Files.deleteIfExists(Paths.get("target/testdb.csv"));
         SpringApplication springApplication = new SpringApplication(DriverServiceApplication.class, Configuration.class);
         springApplication.setAllowBeanDefinitionOverriding(true);
         applicationContext = springApplication.run("--csvFile=target/testdb.csv", "--testableClock");
