@@ -1,5 +1,8 @@
 package uk.co.datumedge.floow.test.system;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -36,7 +39,11 @@ public class RestSteps {
     }
 
     @Then("the JSON response is: $expectedResponse")
-    public void assertJSONResponse(String expectedResponse) {
-        assertThat(response).isEqualTo(expectedResponse);
+    public void assertJSONResponse(String expectedResponse) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode expectedJson = objectMapper.readTree(expectedResponse);
+        JsonNode actualJson = objectMapper.readTree(response);
+
+        assertThat(actualJson).isEqualTo(expectedJson);
     }
 }

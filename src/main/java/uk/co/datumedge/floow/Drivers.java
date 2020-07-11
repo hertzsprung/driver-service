@@ -3,6 +3,7 @@ package uk.co.datumedge.floow;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +12,10 @@ public class Drivers {
 
     public Drivers() {
         this(new ArrayList<>());
+    }
+
+    public Drivers(Driver... drivers) {
+        this(Arrays.asList(drivers));
     }
 
     @JsonCreator
