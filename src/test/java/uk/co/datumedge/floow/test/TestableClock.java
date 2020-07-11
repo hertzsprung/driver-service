@@ -1,4 +1,4 @@
-package uk.co.datumedge.floow;
+package uk.co.datumedge.floow.test;
 
 import java.time.Clock;
 import java.time.Instant;
