@@ -18,8 +18,6 @@ import java.time.Clock;
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.time.Instant.EPOCH;
-import static java.time.ZoneOffset.UTC;
 
 @SpringBootApplication
 @Configuration
@@ -30,13 +28,15 @@ public class DriverServiceApplication {
      *             <dl>
      *              <dt><code>--csvFile=&lt;path&gt;</code></dt>
      *              <dd>Specifies the path for the {@link CSVDriverRepository}
-     *              (default is the relative path <code>db.csv</code>)</dd>
+     *              (default is the relative path <code>db.csv</code>).</dd>
      *
-     *              <dt><code>--fixedEpochClock</code></dt>
-     *              <dd>Fixes the clock at 1970-01-01T00:00:00Z (for testing purposes only)</dd>
+     *              <dt><code>--testableClock</code></dt>
+     *              <dd>For testing purposes only.
+     *              Starts the clock at 1970-01-01T00:00:00Z and increments by one second every time before the clock is read.
+     *              </dd>
      *
      *              <dt><code>--idGenerator=[randomUUID|counter]</code> (default is <code>randomUUID</code>)</dt>
-     *              <dd>Specifies the method for generating driver IDs</dd>
+     *              <dd>Specifies the method for generating driver IDs.</dd>
      *             </dl>
      */
     public static void main(String[] args) {
@@ -59,8 +59,8 @@ public class DriverServiceApplication {
 
     @Bean
     public Clock clock(ApplicationArguments args) {
-        if (args.containsOption("fixedEpochClock")) {
-            return Clock.fixed(EPOCH, UTC);
+        if (args.containsOption("testableClock")) {
+            return new TestableClock();
         } else {
             return Clock.systemUTC();
         }

@@ -31,6 +31,8 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
  * The <code>id</code> is a {@link UUID} string.
  * The <code>date_of_birth</code> is formatted as a {@link java.time.format.DateTimeFormatter#ISO_LOCAL_DATE}.
  * The <code>creationInstant</code> is formatted as a {@link java.time.format.DateTimeFormatter#ISO_INSTANT}.
+ *
+ * <p><code>CSVDriverRepository</code> is not thread-safe and requires external synchronization.</p>
  */
 public class CSVDriverRepository implements DriverRepository {
     private final Path file;
