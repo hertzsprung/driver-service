@@ -3,17 +3,10 @@ Given the drivers:
 |Chloe|Ball|1980-04-12|
 |Rose|Gill|1973-08-01|
 |Owen|Parsons|1992-02-03|
-When I GET /drivers
+When I GET /drivers/byDate?date=1970-01-01T00:00:02Z
 Then the JSON response body is:
 {
     "drivers": [
-        {
-            "id": "00000000-0000-0000-0000-000000000001",
-            "firstname": "Chloe",
-            "lastname": "Ball",
-            "date_of_birth": "1980-04-12",
-            "created": "1970-01-01T00:00:01Z"
-        },
         {
             "id": "00000000-0000-0000-0000-000000000002",
             "firstname": "Rose",

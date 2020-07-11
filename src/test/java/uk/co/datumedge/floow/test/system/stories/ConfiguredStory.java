@@ -12,12 +12,12 @@ import uk.co.datumedge.floow.test.system.RestSteps;
 
 import static org.jbehave.core.reporters.Format.CONSOLE;
 
-public class GetDriversAfterDate extends JUnitStory {
+public abstract class ConfiguredStory extends JUnitStory {
     @Override
     public Configuration configuration() {
         return new MostUsefulConfiguration()
                 .usePendingStepStrategy(new FailingUponPendingStep())
-                .useStoryReporterBuilder(new StoryReporterBuilder().withDefaultFormats().withFormats(CONSOLE));
+                .useStoryReporterBuilder(new StoryReporterBuilder().withFormats(CONSOLE));
     }
 
     @Override

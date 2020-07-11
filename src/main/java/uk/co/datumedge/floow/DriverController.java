@@ -2,11 +2,10 @@ package uk.co.datumedge.floow;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.co.datumedge.floow.repository.DriverRepository;
+
+import java.time.Instant;
 
 import static org.springframework.http.HttpStatus.CREATED;
 
@@ -24,5 +23,10 @@ public class DriverController {
     @GetMapping("/drivers")
     public Drivers findAll() {
         return driverRepository.findAll();
+    }
+
+    @GetMapping("/drivers/byDate")
+    public Drivers findByDate(@RequestParam Instant date) {
+        return new Drivers();
     }
 }

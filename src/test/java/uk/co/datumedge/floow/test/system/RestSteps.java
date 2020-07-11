@@ -17,11 +17,12 @@ import java.util.Map;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 public class RestSteps {
     private static final String ROOT_URL = "http://localhost:8080";
     private final TestRestTemplate client = new TestRestTemplate();
-    private String response;
+    private String responseBody;
 
     @Given("the drivers: $driverDatabase")
     public void postDrivers(ExamplesTable driverDatabase) {
@@ -39,14 +40,16 @@ public class RestSteps {
 
     @When("I GET $path")
     public void get(String path) {
-        response = this.client.getForObject(ROOT_URL + path, String.class);
+        ResponseEntity<String> responseEntity = this.client.getForEntity(ROOT_URL + path, String.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(OK);
+        responseBody = responseEntity.getBody();
     }
 
-    @Then("the JSON response is: $expectedResponse")
-    public void assertJSONResponse(String expectedResponse) throws JsonProcessingException {
+    @Then("the JSON response body is: $expectedResponse")
+    public void assertJSONResponseBody(String expectedResponse) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode expectedJson = objectMapper.readTree(expectedResponse);
-        JsonNode actualJson = objectMapper.readTree(response);
+        JsonNode actualJson = objectMapper.readTree(responseBody);
 
         assertThat(actualJson).isEqualTo(expectedJson);
     }
