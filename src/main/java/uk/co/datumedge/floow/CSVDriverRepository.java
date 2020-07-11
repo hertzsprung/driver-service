@@ -17,10 +17,11 @@ import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 /**
  * Stores {@link Drivers} in a CSV file.  The CSV file is formatted as:
  * <pre>
- *     firstName,lastName
+ *     firstName,lastName,creationInstant
  *     ...
  * </pre>
- * with no header line.
+ * with no header line and no quoted fields.
+ * The <code>creationInstant</code> is formatted as an {@link java.time.format.DateTimeFormatter#ISO_INSTANT}.
  */
 public class CSVDriverRepository implements DriverRepository {
     private final Path file;
