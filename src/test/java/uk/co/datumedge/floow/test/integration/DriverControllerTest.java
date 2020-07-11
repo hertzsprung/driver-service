@@ -8,13 +8,20 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import uk.co.datumedge.floow.Driver;
 import uk.co.datumedge.floow.DriverRepository;
+import uk.co.datumedge.floow.Drivers;
 import uk.co.datumedge.floow.test.system.NewDriver;
 
+import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 public class DriverControllerTest {
+    private static final Driver LUCAS_REES = new Driver("Lucas", "Rees");
+    private static final Driver JESSICA_GREENE = new Driver("Jessica", "Greene");
 
     @Autowired
     private TestRestTemplate client;
@@ -30,8 +37,16 @@ public class DriverControllerTest {
         NewDriver newDriver = new NewDriver("Lucas", "Rees");
         this.client.postForEntity(rootUrl() + "/driver/create", newDriver, String.class);
 
-        Driver savedDriver = new Driver("Lucas", "Rees");
-        verify(repository).save(savedDriver);
+        verify(repository).save(LUCAS_REES);
+    }
+
+    @Test
+    public void getsAllDriversFromRepository() {
+        Drivers expectedDrivers = new Drivers(Arrays.asList(LUCAS_REES, JESSICA_GREENE));
+        when(repository.findAll()).thenReturn(expectedDrivers);
+
+        Drivers actualDrivers = this.client.getForObject(rootUrl() + "/drivers", Drivers.class);
+        assertThat(actualDrivers).isEqualTo(expectedDrivers);
     }
 
     private String rootUrl() {
