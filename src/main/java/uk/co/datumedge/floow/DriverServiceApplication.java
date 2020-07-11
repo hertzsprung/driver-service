@@ -1,15 +1,22 @@
 package uk.co.datumedge.floow;
 
+import org.springframework.beans.BeanInstantiationException;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.AlternativeJdkIdGenerator;
+import org.springframework.util.IdGenerator;
+import org.springframework.util.SimpleIdGenerator;
+import uk.co.datumedge.floow.repository.CSVDriverRepository;
+import uk.co.datumedge.floow.repository.DriverRepository;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Clock;
 
+import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.Instant.EPOCH;
 import static java.time.ZoneOffset.UTC;
@@ -27,6 +34,9 @@ public class DriverServiceApplication {
      *
      *              <dt><code>--fixedEpochClock</code></dt>
      *              <dd>Fixes the clock at 1970-01-01T00:00:00Z (for testing purposes only)</dd>
+     *
+     *              <dt><code>--idGenerator=[randomUUID|counter]</code> (default is <code>randomUUID</code>)</dt>
+     *              <dd>Specifies the method for generating driver IDs</dd>
      *             </dl>
      */
     public static void main(String[] args) {
@@ -34,8 +44,8 @@ public class DriverServiceApplication {
     }
 
     @Bean
-    public DriverRepository driverRepository(Path csvDriverRepositoryPath, Clock clock) {
-        return new CSVDriverRepository(csvDriverRepositoryPath, UTF_8, clock);
+    public DriverRepository driverRepository(Path csvDriverRepositoryPath, Clock clock, IdGenerator idGenerator) {
+        return new CSVDriverRepository(csvDriverRepositoryPath, UTF_8, clock, idGenerator);
     }
 
     @Bean
@@ -48,11 +58,29 @@ public class DriverServiceApplication {
     }
 
     @Bean
-    Clock clock(ApplicationArguments args) {
+    public Clock clock(ApplicationArguments args) {
         if (args.containsOption("fixedEpochClock")) {
             return Clock.fixed(EPOCH, UTC);
         } else {
             return Clock.systemUTC();
+        }
+    }
+
+    @Bean
+    public IdGenerator idGenerator(ApplicationArguments args) {
+        if (args.containsOption("idGenerator") && args.getOptionValues("idGenerator").size() > 0) {
+            String value = args.getOptionValues("idGenerator").get(0);
+
+            if (value.equals("randomUUID")) {
+                return new AlternativeJdkIdGenerator();
+            } else if (value.equals("counter")) {
+                return new SimpleIdGenerator();
+            } else {
+                throw new BeanInstantiationException(IdGenerator.class,
+                        format("Invalid value %s (options are randomUUID or counter)", value));
+            }
+        } else {
+            return new AlternativeJdkIdGenerator();
         }
     }
 }

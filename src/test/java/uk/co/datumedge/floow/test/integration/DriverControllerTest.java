@@ -6,9 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import uk.co.datumedge.floow.DriverRepository;
+import uk.co.datumedge.floow.Driver;
 import uk.co.datumedge.floow.Drivers;
-import uk.co.datumedge.floow.test.system.NewDriver;
+import uk.co.datumedge.floow.repository.DriverRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -30,8 +30,8 @@ public class DriverControllerTest {
 
     @Test
     public void savesDriverToRepository() {
-        NewDriver newDriver = new NewDriver("Lucas", "Rees");
-        this.client.postForEntity(rootUrl() + "/driver/create", newDriver, String.class);
+        Driver driver = new Driver("Lucas", "Rees");
+        this.client.postForEntity(rootUrl() + "/driver/create", driver, String.class);
 
         verify(repository).save(LUCAS_REES.build());
     }

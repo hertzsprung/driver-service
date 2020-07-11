@@ -1,4 +1,4 @@
-package uk.co.datumedge.floow;
+package uk.co.datumedge.floow.repository;
 
 /**
  * Represents a failure to load or save repository data.

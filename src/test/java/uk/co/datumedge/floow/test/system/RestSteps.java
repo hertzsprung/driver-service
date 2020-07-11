@@ -9,6 +9,7 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
+import uk.co.datumedge.floow.Driver;
 
 import java.util.Map;
 
@@ -28,8 +29,8 @@ public class RestSteps {
     }
 
     private void postDriver(Map<String, String> driverParameters) {
-        NewDriver newDriver = new NewDriver(driverParameters.get("firstName"), driverParameters.get("lastName"));
-        ResponseEntity<String> response = this.client.postForEntity(ROOT_URL + "/driver/create", newDriver, String.class);
+        Driver driver = new Driver(driverParameters.get("firstName"), driverParameters.get("lastName"));
+        ResponseEntity<String> response = this.client.postForEntity(ROOT_URL + "/driver/create", driver, String.class);
         assertThat(response.getStatusCode()).isEqualTo(CREATED);
     }
 

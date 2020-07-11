@@ -1,4 +1,7 @@
-package uk.co.datumedge.floow;
+package uk.co.datumedge.floow.repository;
+
+import uk.co.datumedge.floow.Driver;
+import uk.co.datumedge.floow.Drivers;
 
 public interface DriverRepository {
     /**
