@@ -17,7 +17,8 @@ public class DriverServiceSteps {
     @BeforeScenario
     public void start() throws IOException {
         Files.write(Paths.get("testdb.csv"), new byte[0], StandardOpenOption.TRUNCATE_EXISTING);
-        applicationContext = SpringApplication.run(DriverServiceApplication.class, "--csvFile=testdb.csv");
+        applicationContext = SpringApplication.run(DriverServiceApplication.class,
+                "--csvFile=testdb.csv", "--fixedEpochClock");
     }
 
     @AfterScenario

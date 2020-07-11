@@ -33,12 +33,12 @@ public class DriverControllerTest {
         NewDriver newDriver = new NewDriver("Lucas", "Rees");
         this.client.postForEntity(rootUrl() + "/driver/create", newDriver, String.class);
 
-        verify(repository).save(LUCAS_REES);
+        verify(repository).save(LUCAS_REES.build());
     }
 
     @Test
     public void getsAllDriversFromRepository() {
-        Drivers expectedDrivers = new Drivers(LUCAS_REES, JESSICA_GREENE);
+        Drivers expectedDrivers = new Drivers(LUCAS_REES.build(), JESSICA_GREENE.build());
         when(repository.findAll()).thenReturn(expectedDrivers);
 
         Drivers actualDrivers = this.client.getForObject(rootUrl() + "/drivers", Drivers.class);
