@@ -17,6 +17,18 @@ import static java.time.ZoneOffset.UTC;
 @SpringBootApplication
 @Configuration
 public class DriverServiceApplication {
+    /**
+     * Start the driver service.
+     * @param args Available configuration options are:
+     *             <dl>
+     *              <dt><code>--csvFile=&lt;path&gt;</code></dt>
+     *              <dd>Specifies the path for the {@link CSVDriverRepository}
+     *              (default is the relative path <code>db.csv</code>)</dd>
+     *
+     *              <dt><code>--fixedEpochClock</code></dt>
+     *              <dd>Fixes the clock at 1970-01-01T00:00:00Z (for testing purposes only)</dd>
+     *             </dl>
+     */
     public static void main(String[] args) {
         SpringApplication.run(DriverServiceApplication.class, args);
     }
