@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -41,16 +44,21 @@ public class Driver {
     }
 
     @JsonProperty("firstname")
+    @NotBlank(message="firstname cannot be blank")
+    @Pattern(regexp="^((?!,).)*$", message = "firstname cannot contain ','") // https://stackoverflow.com/a/406408
     public String getFirstName() {
         return firstName;
     }
 
     @JsonProperty("lastname")
+    @NotBlank(message="lastname cannot be blank")
+    @Pattern(regexp="^((?!,).)*$", message = "lastname cannot contain ','")
     public String getLastName() {
         return lastName;
     }
 
     @JsonProperty("date_of_birth")
+    @NotNull
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }

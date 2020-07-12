@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.co.datumedge.floow.repository.DriverRepository;
 
+import javax.validation.Valid;
 import java.time.Instant;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -15,7 +16,7 @@ public class DriverController {
     private DriverRepository driverRepository;
 
     @PostMapping("/driver/create")
-    public ResponseEntity<Driver> create(@RequestBody Driver driver) {
+    public ResponseEntity<Driver> create(@Valid @RequestBody Driver driver) {
         driverRepository.save(driver);
         return new ResponseEntity<>(driver, CREATED);
     }
