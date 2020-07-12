@@ -1,4 +1,4 @@
-package uk.co.datumedge.floow;
+package uk.co.datumedge.floow.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;

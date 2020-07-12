@@ -1,4 +1,4 @@
-package uk.co.datumedge.floow.test.system;
+package uk.co.datumedge.floow.test.system.steps;
 
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;

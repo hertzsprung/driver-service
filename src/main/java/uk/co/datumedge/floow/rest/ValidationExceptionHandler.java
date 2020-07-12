@@ -1,4 +1,4 @@
-package uk.co.datumedge.floow;
+package uk.co.datumedge.floow.rest;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;

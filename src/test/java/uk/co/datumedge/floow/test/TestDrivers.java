@@ -1,6 +1,6 @@
 package uk.co.datumedge.floow.test;
 
-import uk.co.datumedge.floow.Driver;
+import uk.co.datumedge.floow.model.Driver;
 
 import java.time.LocalDate;
 

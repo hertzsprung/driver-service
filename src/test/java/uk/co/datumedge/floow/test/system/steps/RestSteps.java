@@ -1,4 +1,4 @@
-package uk.co.datumedge.floow.test.system;
+package uk.co.datumedge.floow.test.system.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,7 +9,7 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
-import uk.co.datumedge.floow.Driver;
+import uk.co.datumedge.floow.model.Driver;
 
 import java.time.LocalDate;
 import java.util.Map;

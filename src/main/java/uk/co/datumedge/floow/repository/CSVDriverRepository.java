@@ -1,8 +1,8 @@
 package uk.co.datumedge.floow.repository;
 
 import org.springframework.util.IdGenerator;
-import uk.co.datumedge.floow.Driver;
-import uk.co.datumedge.floow.Drivers;
+import uk.co.datumedge.floow.model.Driver;
+import uk.co.datumedge.floow.model.Drivers;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

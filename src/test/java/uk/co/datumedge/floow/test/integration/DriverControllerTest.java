@@ -7,8 +7,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
-import uk.co.datumedge.floow.Driver;
-import uk.co.datumedge.floow.Drivers;
+import uk.co.datumedge.floow.model.Driver;
+import uk.co.datumedge.floow.model.Drivers;
 import uk.co.datumedge.floow.repository.DriverRepository;
 
 import java.time.Instant;

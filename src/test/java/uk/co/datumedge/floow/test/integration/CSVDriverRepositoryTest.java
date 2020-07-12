@@ -3,7 +3,7 @@ package uk.co.datumedge.floow.test.integration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.springframework.util.SimpleIdGenerator;
-import uk.co.datumedge.floow.Drivers;
+import uk.co.datumedge.floow.model.Drivers;
 import uk.co.datumedge.floow.repository.CSVDriverRepository;
 import uk.co.datumedge.floow.repository.DriverRepository;
 import uk.co.datumedge.floow.test.TestableClock;

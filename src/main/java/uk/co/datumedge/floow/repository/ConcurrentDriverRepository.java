@@ -1,7 +1,7 @@
 package uk.co.datumedge.floow.repository;
 
-import uk.co.datumedge.floow.Driver;
-import uk.co.datumedge.floow.Drivers;
+import uk.co.datumedge.floow.model.Driver;
+import uk.co.datumedge.floow.model.Drivers;
 
 import java.time.Instant;
 import java.util.concurrent.locks.StampedLock;

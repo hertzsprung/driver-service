@@ -1,8 +1,10 @@
-package uk.co.datumedge.floow;
+package uk.co.datumedge.floow.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uk.co.datumedge.floow.model.Driver;
+import uk.co.datumedge.floow.model.Drivers;
 import uk.co.datumedge.floow.repository.DriverRepository;
 
 import javax.validation.Valid;
