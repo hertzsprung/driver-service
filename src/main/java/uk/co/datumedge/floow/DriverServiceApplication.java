@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AlternativeJdkIdGenerator;
 import org.springframework.util.IdGenerator;
 import uk.co.datumedge.floow.repository.CSVDriverRepository;
+import uk.co.datumedge.floow.repository.ConcurrentDriverRepository;
 import uk.co.datumedge.floow.repository.DriverRepository;
 
 import java.nio.file.Path;
@@ -34,7 +35,8 @@ public class DriverServiceApplication {
 
     @Bean
     public DriverRepository driverRepository(Path csvDriverRepositoryPath, Clock clock, IdGenerator idGenerator) {
-        return new CSVDriverRepository(csvDriverRepositoryPath, UTF_8, clock, idGenerator);
+        return new ConcurrentDriverRepository(
+                new CSVDriverRepository(csvDriverRepositoryPath, UTF_8, clock, idGenerator));
     }
 
     @Bean
